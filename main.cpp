@@ -81,7 +81,7 @@ int get_max_possible(int row[], int width, int col, int heightDiff)
 int get_biggest_profit(vector<coord_t> coords, int width)
 {
     /* there is no need to keep whole row in memory
-        our only interest is to track position of left-part vehicle
+        our only interest is to track position of left pixel of basket
         which can each but not last, thus length = width - 1 */
     int actualWidth = width - 1;
 
@@ -91,10 +91,10 @@ int get_biggest_profit(vector<coord_t> coords, int width)
     int currentRows[2][actualWidth];
     bool currentRowIndex = false;
 
-    /* setting starting position of vehicle to 0 (e.t. 0 collected eggs) */
+    /* setting starting position of basket to 0 (e.t. 0 collected eggs) */
     currentRows[int(currentRowIndex)][0] = 0;
 
-    /* setting positions that are unattainable by vehicle */
+    /* setting positions that are unattainable by basket */
     for (int i = 1; i < actualWidth; i++) {
         currentRows[int(currentRowIndex)][i] = UNATTAINABLE;
     }
@@ -119,13 +119,14 @@ int get_biggest_profit(vector<coord_t> coords, int width)
             int *currentRow = currentRows[int(!currentRowIndex)];
 
             /* if column of current egg is not the last one, than it's
-                achievable even if left-part of vehicle is right on the column */
+                achievable even if left pixel of basekt is right on the column
+             */
             if (currentColumn < width &&
                 isATTAINABLE(currentRow[ARRAyOFFSET(currentColumn)]))
                 currentRow[ARRAyOFFSET(currentColumn)] += 1;
 
             /* if column of current egg is not the first one, than it's
-                achievable even if left-part of vehicle is one field more to the
+                achievable even if left pixel of basket is one field more to the
                 left */
             if (currentColumn > 1 &&
                 isATTAINABLE(currentRow[ARRAyOFFSET(currentColumn) - 1])) {
